@@ -26,6 +26,7 @@
 //    - **`eliminarTodo()`**: Método para eliminar todas las acciones del historial.
 //    - **`mostrarHistorial()`**: Método para mostrar en la consola todas las acciones en el historial.
 
+
 class Accion {
     id: number = 0;
     date: Date;
