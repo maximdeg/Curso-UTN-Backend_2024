@@ -40,7 +40,11 @@ class Accion {
     }
 
     mostrarDetalle(): void {
-        console.log("Description: " + this.description);
+        console.log(
+            `Ocurrio esto ${this.description} el dia ${this.date.getDay()}/${
+                this.date.getMonth
+            } `
+        );
     }
 }
 
