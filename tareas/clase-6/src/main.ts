@@ -51,13 +51,8 @@ class Accion {
 class AccionInicioSesion extends Accion {
     dispositivoOrigen: string;
 
-    constructor(
-        id: number,
-        date: Date,
-        description: string,
-        dispositivoOrigen: string
-    ) {
-        super(id, date, description);
+    constructor(id: number, date: Date, dispositivoOrigen: string) {
+        super(id, date, "Inicio Sesion");
         this.dispositivoOrigen = dispositivoOrigen;
     }
 
@@ -74,14 +69,17 @@ class AccionInicioSesion extends Accion {
 
 class Cambio {
     id_cambio: number;
+    campo: string;
     valor_anterior: string;
     nuevo_valor: string;
     constructor(
         id_cambio: number,
+        campo: string,
         valor_anterior: string,
         nuevo_valor: string
     ) {
         this.id_cambio = id_cambio;
+        this.campo = campo;
         this.valor_anterior = valor_anterior;
         this.nuevo_valor = nuevo_valor;
     }
@@ -96,13 +94,8 @@ class Cambio {
 class AccionActualizacionPerfil extends Accion {
     cambios: Cambio[];
 
-    constructor(
-        id: number,
-        date: Date,
-        description: string,
-        cambios: Cambio[]
-    ) {
-        super(id, date, description);
+    constructor(id: number, date: Date, cambios: Cambio[]) {
+        super(id, date, "Actualizacion de Perfil");
         this.cambios = cambios;
     }
 
@@ -121,11 +114,10 @@ class AccionCompra extends Accion {
     constructor(
         id: number,
         date: Date,
-        description: string,
         productos: Array<string>,
         total: number
     ) {
-        super(id, date, description);
+        super(id, date, "Usuario realizo la compra");
         this.productos = productos;
         this.total = total;
     }
@@ -143,14 +135,8 @@ class AccionEnvioMensaje extends Accion {
     destinatario: string;
     mensaje: string;
 
-    constructor(
-        id: number,
-        date: Date,
-        description: string,
-        destinatario: string,
-        mensaje: string
-    ) {
-        super(id, date, description);
+    constructor(id: number, date: Date, destinatario: string, mensaje: string) {
+        super(id, date, "Usuario envio un mensaje");
         this.destinatario = destinatario;
         this.mensaje = mensaje;
     }
@@ -197,24 +183,15 @@ class Historial {
 
 const historial = new Historial();
 
-const inicioSesion = new AccionInicioSesion(
-    1,
-    new Date(),
-    "Usuario inicio sesion",
-    "Computadora MAC"
-);
+const inicioSesion = new AccionInicioSesion(1, new Date(), "Computadora MAC");
 
-const actualizarPerfil = new AccionActualizacionPerfil(
-    2,
-    new Date(),
-    "Actualizacion de perfil",
-    [new Cambio(1, "pepe@pepe.com", "pepe@gmail.com")]
-);
+const actualizarPerfil = new AccionActualizacionPerfil(2, new Date(), [
+    new Cambio(1, "email", "pepe@pepe.com", "pepe@gmail.com"),
+]);
 
 const compra = new AccionCompra(
     3,
     new Date(),
-    "Compra de producos",
     ["Monitor", "Teclado", "Mouse"],
     5000
 );
@@ -222,7 +199,6 @@ const compra = new AccionCompra(
 const enviarMensaje = new AccionEnvioMensaje(
     4,
     new Date(),
-    "Envio de mensaje",
     "Pepe",
     "Hola Pepe. Como estas? Me prestas dinero para un monitor, teclado y mouse"
 );
