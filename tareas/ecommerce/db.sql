@@ -3,9 +3,7 @@
 -- Tablas:
 
 
-CREATE DATABASE ecommerce;
 
-USE ecommerce;
 
 -- Compradores
     -- id
@@ -15,14 +13,6 @@ USE ecommerce;
     -- telefono
     -- fecha_registro
 
-CREATE TABLE compradores (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(50),
-    email VARCHAR(100) UNIQUE,
-    direccion VARCHAR(150) UNIQUE,
-    telefono VARCHAR(20),
-    fecha_registro DATE
-);
 
 -- Productos
     -- id
@@ -32,26 +22,12 @@ CREATE TABLE compradores (
     --stock
     --fecha_creacion
 
-CREATE TABLE productos (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(50) UNIQUE,
-    descripcion TEXT,
-    precio DECIMAL(10,2),
-    stock INT,
-    fecha_creacion DATE
-)
 
 -- Carritos
     -- id
     -- comprador_id FOREIGN KEY
     -- fecha_creacion
 
-CREATE TABLE carritos (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    comprador_id INT,
-    fecha_creacion DATE,
-    FOREIGN KEY (comprador_id) REFERENCES compradores(id)
-);
 
 -- Carritos_Productos
     -- id
@@ -61,18 +37,13 @@ CREATE TABLE carritos (
     -- fecha_agregado
 -- Una vez desarrollado probar el flujo insertando manualmente datos con PHPMyAdmin o gestor de preferencia.
 
-CREATE TABLE carritos_productos (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    carrito_id INT,
-    producto_id INT,
-    cantidad INT,
-    fecha_agregado DATE,
-    FOREIGN KEY (carrito_id) REFERENCES carritos(id),
-    FOREIGN KEY (producto_id) REFERENCES productos(id)
-);
 
 -- EXECUTED
-use ecommerce;
+
+CREATE DATABASE ecommerce;
+
+USE ecommerce;
+
 CREATE TABLE compradores (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(50),
