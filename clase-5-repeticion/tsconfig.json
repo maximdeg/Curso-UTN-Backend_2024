@@ -1,0 +1,28 @@
+// {
+//     "compilerOptions": {
+//         "target": "ESNext", // LA VERSION EN LA QUE SE EJECUTA EL CODIGO
+//         "module": "NodeNext", // Se puedan interpretar automatcamente los imports como extensiones de .js
+//         "esModuleInterop": true,
+//         "moduleResolution": "NodeNext",
+//         "allowSyntheticDefaultImports": true,
+//         "outDir": "./dist", // LA CARPETA DE SALIDA DE CODIGO JS COMPILADO
+//         "rootDir": "./src", // LA CARPETA DE ORIGEN DE LOS ARCHIVOS TS
+//         "strict": true,
+//         "resolveJsonModule": true
+//         // "emitDeclarationOnly": true,
+//         // "allowImportingTsExtensions": true
+//     },
+//     "include": ["src/**/*.ts"],
+//     "exclude": ["node_modules"]
+// }
+
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "module": "ES6",
+        "target": "ES6"
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules"]
+}
