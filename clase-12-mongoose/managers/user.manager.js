@@ -30,6 +30,11 @@ export const createUser = async (name, email, role, password, phone, address) =>
   }
 };
 
+/**
+ * Busca un usuario por su id.
+ * @param {string} id del usuario a buscar
+ * @returns {Promise<User | null>} el usuario encontrado o null si no existe
+ */
 export const findUserByID = async (id) => {
   try {
     if (!id) throw { error: "NO ID" };
@@ -41,6 +46,12 @@ export const findUserByID = async (id) => {
   }
 };
 
+/**
+ * Actualiza un usuario por su id.
+ * @param {string} id del usuario a actualizar
+ * @param {Object} data datos a actualizar
+ * @returns {Promise<User | null>} el usuario actualizado o null si no existe
+ */
 export const updateUser = async (id, data) => {
   try {
     // NEW: true devuelve el objeto actualizado, no el viejo
@@ -52,6 +63,11 @@ export const updateUser = async (id, data) => {
   }
 };
 
+/**
+ * Elimina un usuario por su id.
+ * @param {string} id del usuario a eliminar
+ * @returns {Promise<User | null>} el usuario eliminado o null si no existe
+ */
 export const deleteUser = async (id) => {
   try {
     const deletedUser = await User.findByIdAndDelete(id);
