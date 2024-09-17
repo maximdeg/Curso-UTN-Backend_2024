@@ -1,45 +1,21 @@
-import { mongoose } from "./config/mongoDB.config.js";
+import { createUser, findUserByID } from "./managers/user.manager.js";
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  role: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  phone: {
-    type: String,
-    required: true,
-  },
-  address: {
-    type: String,
-    required: true,
-  },
-  created_at: {
-    type: Date,
-    default: Date.now,
-  },
-});
-
-const User = mongoose.model("user", userSchema);
-y;
-
-new User(
-  "Pepe",
-  "pepe@pepe.com",
+createUser(
+  "juan",
+  "juan@jose.com",
   "user",
-  "pepe123",
-  "23123123",
-  "123 Fake Avenue"
-).save();
+  "juan1234",
+  "123 456 789",
+  "123 Fake Street"
+);
+
+findUserByID("66e9902755c75bea0e5ab37c")
+  .then(result => {
+    console.log("USER FOUND:", result.email);
+  })
+  .catch(error => {
+    console.error("💥 Ocurrio una excpecion", error);
+  })
+  .finally(() => {
+    console.log("PROCESS FINISHED");
+  });
