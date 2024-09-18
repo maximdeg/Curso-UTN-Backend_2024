@@ -17,12 +17,9 @@ class LoggerManager {
   }
 
   addLog(level, modulo, message) {
-    let log = new Log(level, modulo, message, new Date(), this.id_counter++);
+    const log = new Log(level, modulo, message, new Date(), this.id_counter++);
     this.logs.push(log);
-    this.saveLog(log);
-  }
 
-  saveLog(log) {
     const contentString = `\n[ID: ${log.id}] [${log.level.toUpperCase()}] [${
       log.modulo
     }] [${log.timestamp.getFullYear()}-${
@@ -31,6 +28,10 @@ class LoggerManager {
       log.message
     }`;
 
+    this.writeLog(contentString);
+  }
+
+  writeLog(contentString) {
     if (filesystem.existsSync("./logs/logs.txt")) {
       filesystem.appendFileSync("./logs/logs.txt", contentString, "utf-8");
     } else {
