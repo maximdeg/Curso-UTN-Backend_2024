@@ -11,3 +11,7 @@
 [ID: 2] [INFO] [app.js] [2024-9-18 8:45:1] Usuario suscripto con username
 [ID: 3] [WARN] [app.js] [2024-9-18 8:45:1] Usuario suscripto con e-mail
 [ID: 4] [ERROR] [app.js] [2024-9-18 8:45:1] Error al suscribir usuario
+[ID: 1] [DEBUG] [app.js] [2024-9-19 15:12:35] Error al suscribir email
+[ID: 2] [INFO] [app.js] [2024-9-19 15:12:35] Usuario suscripto con username
+[ID: 3] [WARN] [app.js] [2024-9-19 15:12:35] Usuario suscripto con e-mail
+[ID: 4] [ERROR] [app.js] [2024-9-19 15:12:35] Error al suscribir usuario
