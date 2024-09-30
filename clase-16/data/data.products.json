@@ -1,8 +1,1 @@
-[
-  { "id": 1, "title": "nuevo tv", "price": 3000, "category": "TECNOLOGIA", "stock": 2 },
-  { "id": 3, "title": "nuevo tv", "price": 3000, "category": "TECNOLOGIA", "stock": 2 },
-  { "id": 4, "title": "nuevo tv", "price": 3000, "category": "TECNOLOGIA", "stock": 2 },
-  { "id": 5, "title": "nuevo tv", "price": 3000, "category": "TECNOLOGIA", "stock": 2 },
-  { "id": 1727358714493, "title": "nuevo tv", "price": 3000, "category": "TECNOLOGIA", "stock": 2 },
-  { "id": 1727358727255, "title": "nuevo tv", "price": 3000, "category": "TECNOLOGIA", "stock": 2 }
-]
+[{"id":1727730985465,"title":"Nuevo TV Plasma 360","price":4000,"category":"electrodomestico","stock":2},{"id":1727731080832,"title":"Nuevo TV Plasma 34","price":3000,"category":"ropa","stock":2},{"id":1727732426866,"title":"Nuevo TV Plasma 300","price":3000,"category":"ropa","stock":2},{"id":1727732491446,"title":"Nuevo TV Plasma 30","price":3000,"category":"electrodomesticO","stock":2},{"id":1727733022891,"title":"Nuevo TV Plasma 360","price":3000,"category":"electrodomestico","stock":2}]
