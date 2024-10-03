@@ -1,0 +1,17 @@
+{{#if this.ok}}
+    <h1>{{this.data.title}}</h1>
+    <button>{{this.data.date}}</button>
+    <h3>Valor Dolar: {{this.data.valor_dolar}}</h3>
+    <div>
+        {{#each this.data.products}}
+            <div>
+                <h1>{{this.name}}</h1>
+                <h2>Price: {{this.price}}</h2>
+                <button>Buy</button>
+                <a href="./products/{{this.id}}"><button>Details</button></a>
+            </div>
+        {{/each}}
+    </div>
+{{else}}
+    <h1>{{this.message}}: {{this.data.detail}}</h1>
+{{/if}}
