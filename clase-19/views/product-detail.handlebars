@@ -1,5 +1,7 @@
 <h1>PRODUCT DETAILS</h1>
-<h2>{{this.data.product.name}}</h2>
-<h3>Price: {{this.data.product.price}}</h3>
-<h3>Description: {{this.data.product.description}}</h3>
+<h2>{{this.data.form_state.product.name}}</h2>
+<h3>Price: {{this.data.form_state.product.price}}</h3>
+<h3>Description: {{this.data.form_state.product.description}}</h3>
 <a href="http://127.0.0.1:5000/"><button>Back</button></a>
+<a href="/products/{{this.data.form_state.product.id}}/update"><button
+    >UPDATE</button></a>

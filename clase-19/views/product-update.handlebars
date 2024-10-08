@@ -1,5 +1,9 @@
-<h1>Product Form</h1>
-<form action="/products/new" method="POST">
+<h1>UPDATE PRODUCT {{this.data.form_state.product.name}}</h1>
+
+<form
+    action="/products/{{this.data.form_state.product.id}}/update"
+    method="POST"
+>
     <div>
         <label for="name">Name:</label>
         <input
@@ -10,7 +14,7 @@
             value={{this.data.form_state.product.name}}
         />
         {{#if this.data.errors.name}}
-            <span>{{this.data.errors.name}}</span>
+            <span>{{this.data.form_state.errors.name}}</span>
         {{/if}}
     </div>
     <div>
@@ -22,8 +26,8 @@
             placeholder="2000"
             value={{this.data.form_state.product.price}}
         />
-        {{#if this.data.errors.price}}
-            <span>{{this.data.errors.price}}</span>
+        {{#if this.data.form_state.errors.price}}
+            <span>{{this.data.form_state.errors.price}}</span>
         {{/if}}
     </div>
     <div>
@@ -35,8 +39,8 @@
             placeholder="Describe your product..."
             value={{this.data.form_state.product.description}}
         ></textarea>
-        {{#if this.data.errors.description}}
-            <span>{{this.data.errors.description}}</span>
+        {{#if this.data.form_state.errors.description}}
+            <span>{{this.data.form_state.errors.description}}</span>
         {{/if}}
     </div>
     <div>

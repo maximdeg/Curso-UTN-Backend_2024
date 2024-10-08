@@ -62,7 +62,16 @@ app.get("/", (req, res) => {
 
 app.get("/products/new", (req, res) => {
     res.render("product-form", {
-        data: { errors: { name: null }, price: null, description: null },
+        data: {
+            errors: { name: null, price: null, description: null },
+            form_state: {
+                product: {
+                    name: "Test",
+                    price: "4000",
+                    description: "DEFAULT DESCRIPTION",
+                },
+            },
+        },
     });
 });
 
@@ -76,14 +85,67 @@ app.get("/products/:product_id", (req, res) => {
         message: "producto obtenido",
         ok: true,
         data: {
-            product,
+            errors: {
+                name: null,
+                price: null,
+                description: null,
+            },
+            form_state: {
+                product,
+            },
         },
     };
     res.render("product-detail", response);
 });
 
+app.get("/products/:product_id/update", (req, res) => {
+    const { product_id } = req.params;
+    const product = products.find(
+        (product) => product.id === Number(product_id)
+    );
+    res.render("product-update", {
+        data: {
+            errors: {
+                name: null,
+                price: null,
+                description: null,
+            },
+            form_state: {
+                product,
+            },
+        },
+    });
+});
+
+app.post("/products/:product_id/update", (req, res) => {
+    const { product_id } = req.params;
+    console.log(product_id);
+    // if (!product_id)
+    //     return res.json(responseBuilder(false, 404, "Product ID not found"));
+
+    // const { title, price, category, stock } = req.body;
+    // const products = await getProductsJSON();
+
+    // const newProducts = products.map((product) => {
+    //   if (product.id == product_id) {
+    //     product.title = title;
+    //     product.price = price;
+    //     product.category = category;
+    //     product.stock = stock;
+    //   }
+    //   return product;
+    // });
+
+    // fs.promises.writeFile("./data/data.products.json", JSON.stringify(newProducts));
+
+    // return res.json(responseBuilder(true, 200, "Product updated"));
+});
+
 app.post("/products/new", (req, res) => {
     console.log("Form received!", req.body);
+    const { name, price, description } = req.body;
+    const newProduct = { name, price, description };
+
     const errors = {
         name: null,
         price: null,
@@ -101,7 +163,19 @@ app.post("/products/new", (req, res) => {
     }
 
     let isError = Object.values(errors).some((error) => error !== null);
-    if (isError) return res.render("product-form", { data: { errors } });
+    if (isError)
+        return res.render("product-form", {
+            data: {
+                errors,
+                form_state: {
+                    product: {
+                        newProduct,
+                    },
+                },
+            },
+        });
+
+    products.push({ newProduct, id: Date.now });
 
     res.redirect("/");
 });
