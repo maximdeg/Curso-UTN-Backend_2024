@@ -1,9 +1,12 @@
 body {
-    background-color: rgb(58, 0, 0);
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    background-color: black;
     color: grey;
 }
 
 button {
-    background-color: rgb(58, 0, 0);
+    background-color: purple;
+    font-weight: 900;
     color: grey;
 }

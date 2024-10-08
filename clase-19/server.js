@@ -27,6 +27,7 @@ const products = [
 
 // Determines the use of the public folder
 app.use(express.static("./public"));
+app.use(express.urlencoded({ extended: true }));
 
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
@@ -59,6 +60,12 @@ app.get("/", (req, res) => {
     }
 });
 
+app.get("/products/new", (req, res) => {
+    res.render("product-form", {
+        data: { errors: { name: null }, price: null, description: null },
+    });
+});
+
 app.get("/products/:product_id", (req, res) => {
     const { product_id } = req.params;
     const product = products.find(
@@ -73,6 +80,30 @@ app.get("/products/:product_id", (req, res) => {
         },
     };
     res.render("product-detail", response);
+});
+
+app.post("/products/new", (req, res) => {
+    console.log("Form received!", req.body);
+    const errors = {
+        name: null,
+        price: null,
+        description: null,
+    };
+
+    if (!req.body.name.trim() || !isNaN(req.body.name.trim())) {
+        errors.name = "No se completo el nombre correctamente";
+    }
+    if (!req.body.price.trim() || !isNaN(req.body.price.trim())) {
+        errors.price = "No se completo el precio correctamente";
+    }
+    if (!req.body.description.trim() || !isNaN(req.body.description.trim())) {
+        errors.description = "No se completo el descripcion correctamente";
+    }
+
+    let isError = Object.values(errors).some((error) => error !== null);
+    if (isError) return res.render("product-form", { data: { errors } });
+
+    res.redirect("/");
 });
 
 app.get("/ping", (req, res) => {

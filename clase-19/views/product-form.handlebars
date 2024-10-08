@@ -1,0 +1,32 @@
+<h1>Product Form</h1>
+<form action="/products/new" method="POST">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="John Smith" />
+        {{#if this.data.errors.name}}
+            <span>{{this.data.errors.name}}</span>
+        {{/if}}
+    </div>
+    <div>
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price" placeholder="2000" />
+        {{#if this.data.errors.price}}
+            <span>{{this.data.errors.price}}</span>
+        {{/if}}
+    </div>
+    <div>
+        <label for="description">Description:</label>
+        <textarea
+            type="text"
+            id="description"
+            name="description"
+            placeholder="Describe your product..."
+        ></textarea>
+        {{#if this.data.errors.description}}
+            <span>{{this.data.errors.description}}</span>
+        {{/if}}
+    </div>
+    <div>
+        <button>Submit</button>
+    </div>
+</form>
