@@ -1,5 +1,5 @@
-import express from "express";
-import { engine } from "express-handlebars";
+import express from 'express';
+import { engine } from 'express-handlebars';
 
 const app = express();
 const PORT = 5000;
@@ -7,82 +7,82 @@ const PORT = 5000;
 const products = [
     {
         id: 1,
-        name: "TV pepe",
+        name: 'TV pepe',
         price: 300,
         description: 'TV de pepe, plasma 32", negro',
     },
     {
         id: 2,
-        name: "TV pepe",
+        name: 'TV pepe',
         price: 1200,
         description: 'TV de pepe, plasma 34", negro',
     },
     {
         id: 3,
-        name: "TV pepe",
+        name: 'TV pepe',
         price: 400,
         description: 'TV de pepe, plasma 36", negro',
     },
 ];
 
 // Determines the use of the public folder
-app.use(express.static("./public"));
+app.use(express.static('./public'));
 app.use(express.urlencoded({ extended: true }));
 
-app.engine("handlebars", engine());
-app.set("view engine", "handlebars");
-app.set("views", "./views");
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars');
+app.set('views', './views');
 
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
     try {
         const response = {
             status: 200,
-            message: "productos obtenidos",
+            message: 'productos obtenidos',
             ok: true,
             data: {
-                title: "TITLE",
+                title: 'TITLE',
                 date: Date.now,
                 valor_dolar: 1200,
                 products,
             },
-            layout: "products",
+            layout: 'products',
         };
 
-        res.render("home", response);
+        res.render('home', response);
     } catch (error) {
         const response = {
             status: 500,
-            message: "FATAL_ERROR",
+            message: 'FATAL_ERROR',
             ok: false,
-            data: { detail: "Porque me pinto" },
+            data: { detail: 'Porque me pinto' },
         };
-        res.render("home", response);
+        res.render('home', response);
     }
 });
 
-app.get("/products/new", (req, res) => {
-    res.render("product-form", {
+app.get('/products/new', (req, res) => {
+    res.render('product-form', {
         data: {
             errors: { name: null, price: null, description: null },
             form_state: {
                 product: {
-                    name: "Test",
-                    price: "4000",
-                    description: "DEFAULT DESCRIPTION",
+                    name: '',
+                    price: '',
+                    description: '',
                 },
             },
         },
     });
 });
 
-app.get("/products/:product_id", (req, res) => {
+app.get('/products/:product_id', (req, res) => {
     const { product_id } = req.params;
     const product = products.find(
         (product) => product.id == Number(product_id)
     );
     const response = {
         status: 200,
-        message: "producto obtenido",
+        message: 'producto obtenido',
         ok: true,
         data: {
             errors: {
@@ -95,15 +95,18 @@ app.get("/products/:product_id", (req, res) => {
             },
         },
     };
-    res.render("product-detail", response);
+    res.render('product-detail', response);
 });
 
-app.get("/products/:product_id/update", (req, res) => {
+app.get('/products/:product_id/update', (req, res) => {
     const { product_id } = req.params;
     const product = products.find(
         (product) => product.id === Number(product_id)
     );
-    res.render("product-update", {
+    const { name, id, price, description } = product;
+    console.log('PRODUCT TO UPDATE:', product);
+
+    res.render('product-update', {
         data: {
             errors: {
                 name: null,
@@ -111,40 +114,57 @@ app.get("/products/:product_id/update", (req, res) => {
                 description: null,
             },
             form_state: {
-                product,
+                product: {
+                    name,
+                    id,
+                    price,
+                    description,
+                },
             },
         },
     });
 });
 
-app.post("/products/:product_id/update", (req, res) => {
+app.post('/products/:product_id/update', (req, res) => {
     const { product_id } = req.params;
-    console.log(product_id);
-    // if (!product_id)
-    //     return res.json(responseBuilder(false, 404, "Product ID not found"));
+    if (!product_id)
+        return res.render('error-view', {
+            data: {
+                errors: {
+                    name: 'PAGE_NOT_FOUND',
+                    message: 'Page has not been found',
+                },
+            },
+        });
 
-    // const { title, price, category, stock } = req.body;
-    // const products = await getProductsJSON();
+    const { name, price, description } = req.body;
 
-    // const newProducts = products.map((product) => {
-    //   if (product.id == product_id) {
-    //     product.title = title;
-    //     product.price = price;
-    //     product.category = category;
-    //     product.stock = stock;
-    //   }
-    //   return product;
-    // });
+    if (!name.trim() || !isNaN(name)) {
+        errors.name = 'No se puede enviar un valor numerico o vacio!';
+    }
+    if (!price.trim() || isNaN(price.trim())) {
+        errors.precio = 'El precio debe ser un numero!';
+    }
+    if (!description.trim() || !isNaN(description.trim())) {
+        errors.description = 'No se completo el descripcion correctamente';
+    }
 
-    // fs.promises.writeFile("./data/data.products.json", JSON.stringify(newProducts));
+    products.map((product) => {
+        if (product.id == product_id) {
+            product.name = name;
+            product.price = price;
+            product.description = description;
+        }
+        return product;
+    });
 
-    // return res.json(responseBuilder(true, 200, "Product updated"));
+    res.redirect('/');
 });
 
-app.post("/products/new", (req, res) => {
-    console.log("Form received!", req.body);
+app.post('/products/new', (req, res) => {
+    console.log('Form received!', req.body);
     const { name, price, description } = req.body;
-    const newProduct = { name, price, description };
+    const newProduct = { name, price, description, id: Date.now() };
 
     const errors = {
         name: null,
@@ -152,36 +172,34 @@ app.post("/products/new", (req, res) => {
         description: null,
     };
 
-    if (!req.body.name.trim() || !isNaN(req.body.name.trim())) {
-        errors.name = "No se completo el nombre correctamente";
+    if (!name.trim() || !isNaN(name)) {
+        errors.name = 'No se puede enviar un valor numerico o vacio!';
     }
-    if (!req.body.price.trim() || !isNaN(req.body.price.trim())) {
-        errors.price = "No se completo el precio correctamente";
+    if (!price.trim() || isNaN(price.trim())) {
+        errors.precio = 'El precio debe ser un numero!';
     }
-    if (!req.body.description.trim() || !isNaN(req.body.description.trim())) {
-        errors.description = "No se completo el descripcion correctamente";
+    if (!description.trim() || !isNaN(description.trim())) {
+        errors.description = 'No se completo el descripcion correctamente';
     }
 
     let isError = Object.values(errors).some((error) => error !== null);
     if (isError)
-        return res.render("product-form", {
+        return res.render('product-form', {
             data: {
                 errors,
                 form_state: {
-                    product: {
-                        newProduct,
-                    },
+                    product: newProduct,
                 },
             },
         });
 
-    products.push({ newProduct, id: Date.now });
+    products.push(newProduct);
 
-    res.redirect("/");
+    res.redirect('/');
 });
 
-app.get("/ping", (req, res) => {
-    res.send("pong");
+app.get('/ping', (req, res) => {
+    res.send('pong');
 });
 
 app.listen(PORT, () => {

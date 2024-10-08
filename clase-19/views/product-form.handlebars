@@ -28,13 +28,13 @@
     </div>
     <div>
         <label for="description">Description:</label>
-        <textarea
+        <input
             type="text"
             id="description"
             name="description"
             placeholder="Describe your product..."
             value={{this.data.form_state.product.description}}
-        ></textarea>
+        ></input>
         {{#if this.data.errors.description}}
             <span>{{this.data.errors.description}}</span>
         {{/if}}

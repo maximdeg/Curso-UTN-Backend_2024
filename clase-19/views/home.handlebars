@@ -1,20 +1,21 @@
 {{#if this.ok}}
-    <h1>{{this.data.title}}</h1>
-    <a href="/products/new">
+    <h3>{{this.data.title}}</h3>
+    <a href='/products/new'>
         <button>NEW PRODUCT</button>
     </a>
 
-    <h1>HOME Handlebar</h1>
+    <h3>HOME Handlebar</h3>
     <div>
         {{#each this.data.products}}
+            <hr />
             <div>
-                <h1>{{this.name}}</h1>
-                <h2>Price: {{this.price}}</h2>
+                <h3>{{this.name}}</h3>
+                <h4>Price: {{this.price}}</h4>
                 <button>Buy</button>
-                <a href="./products/{{this.id}}"><button>Details</button></a>
+                <a href='./products/{{this.id}}'><button>Details</button></a>
             </div>
         {{/each}}
     </div>
 {{else}}
-    <h1>{{this.message}}: {{this.data.detail}}</h1>
+    <h3>{{this.message}}: {{this.data.detail}}</h3>
 {{/if}}
