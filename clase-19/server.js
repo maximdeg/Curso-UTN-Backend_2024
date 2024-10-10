@@ -140,10 +140,11 @@ app.post('/products/:product_id/update', (req, res) => {
     const { name, price, description } = req.body;
 
     if (!name.trim() || !isNaN(name)) {
-        errors.name = 'No se puede enviar un valor numerico o vacio!';
+        errors.name = 'Por favor complete este campo y sin numeros!';
     }
     if (!price.trim() || isNaN(price.trim())) {
-        errors.precio = 'El precio debe ser un numero!';
+        errors.precio =
+            'Por favor complete el precio y el precio debe ser un numero!';
     }
     if (!description.trim() || !isNaN(description.trim())) {
         errors.description = 'No se completo el descripcion correctamente';
@@ -158,7 +159,7 @@ app.post('/products/:product_id/update', (req, res) => {
         return product;
     });
 
-    res.redirect('/');
+    res.redirect(`/products/${product_id}`);
 });
 
 app.post('/products/new', (req, res) => {
