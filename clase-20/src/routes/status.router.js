@@ -3,6 +3,6 @@ import { getPingController } from "../controllers/status.controller.js";
 
 const statusRouter = express.Router();
 
-statusRouter.get("/ping", getPingController);
+statusRouter.get("/status/ping", getPingController);
 
 export default statusRouter;
