@@ -20,7 +20,6 @@ export const registerUserController = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const verificationToken = jwt.sign({ email: email }, ENV.JWT_SECRET, {
       expiresIn: ENV.JWT_TIME,
     });
@@ -30,6 +29,7 @@ export const registerUserController = async (req, res) => {
       email,
       password: hashedPassword,
       verificationToken,
+      emailVerified: false,
     });
 
     await newUser.save();
@@ -41,6 +41,7 @@ export const registerUserController = async (req, res) => {
       .setMessage("SUCCESS")
       .build();
     return res.status(200).json(response);
+    
   } catch (err) {
     const response = new ResponseBuilder()
       .setOk(false)
