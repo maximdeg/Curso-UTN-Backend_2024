@@ -1,14 +1,16 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
 import ENV from "../config/enviroment.config.js";
 import ResponseBuilder from "../utils/builders/responseBuilder.js";
 import User from "../models/user.model.js";
+import UserRepository from "../repositories/user.repository.js";
 import { sendEmail } from "../utils/mail.util.js";
 
 export const registerUserController = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    const existsUser = await User.findOne({ email: email });
+    const existsUser = await UserRepository.getByEmail(email);
 
     if (existsUser) {
       const response = new ResponseBuilder()
@@ -113,8 +115,8 @@ export const verifyMailValidationTokenController = async (req, res) => {
 export const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    const user = await User.findOne({ email });
+    // TODO: validate
+    const user = await UserRepository.getByEmail(email);
 
     if (!user) {
       const response = new ResponseBuilder()
@@ -191,4 +193,49 @@ export const loginController = async (req, res) => {
 
     res.status(500).json(response);
   }
+};
+
+export const forgotPasswordController = async (req, res) => {
+  try {
+    const { email } = req.body;
+    // TODO: validate email
+    const user = await UserRepository.getByEmail(email);
+    if (!user) {
+      const response = new ResponseBuilder()
+        .setOk(false)
+        .setStatus(401)
+        .setMessage("USER_NOT_FOUND")
+        .setPayload({ detail: "User is not registrated. Please SIGN UP" })
+        .build();
+
+      return res.status(401).json(response);
+    }
+
+    const resetToken = jwt.sign({ email: user.email }, ENV.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    const resetUrl = `http://127.0.0.1:${ENV.PORT}/api/auth/reset-password/${resetToken}`;
+
+    sendEmail({
+      to: user.email,
+      subject: "Restablish password",
+      html: `
+      <div>
+        <h1>Has solicitado restablecer tu contraseña</h1>
+        <p>Haz click en el enlace: ${resetUrl}</p>
+      </div>`,
+    });
+
+    const response = new ResponseBuilder()
+      .setOk(true)
+      .setStatus(200)
+      .setMessage("SUCCESS")
+      .setPayload({
+        message: "Recovery password sent successfully",
+      })
+      .build();
+
+    return res.status(200).json(response);
+  } catch (err) {}
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { extractFormData } from '../../utils.js/extractFormData';
 
-function Login() {
+function ForgotPassword() {
     const handleLoginForm = (e) => {
         e.preventDefault();
 
@@ -14,7 +14,7 @@ function Login() {
         };
         const form_values_object = extractFormData(form_fields, form_values);
 
-        fetch('http://127.0.0.1:3000/api/auth/login', {
+        fetch('http://127.0.0.1:3000/api/auth/forgot-password', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(form_values_object),
@@ -25,7 +25,7 @@ function Login() {
 
     return (
         <div>
-            <h1>LOGIN</h1>
+            <h1>Forgot my password</h1>
 
             <form onSubmit={handleLoginForm}>
                 <div>
@@ -37,16 +37,8 @@ function Login() {
                         placeholder="Enter your email"
                     />
                 </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        placeholder="Enter your password"
-                    />
-                </div>
-                <button type="submit">Login</button>
+
+                <button type="submit">Send recovery token</button>
                 <div>
                     <span>
                         If you don't have an account you can{' '}
@@ -55,8 +47,8 @@ function Login() {
                 </div>
                 <div>
                     <span>
-                        If you forgot your password please{' '}
-                        <Link to="/forgot-password">click here</Link>{' '}
+                        If you have an account you can{' '}
+                        <Link to="/login">login</Link>{' '}
                     </span>
                 </div>
             </form>
@@ -64,4 +56,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default ForgotPassword;

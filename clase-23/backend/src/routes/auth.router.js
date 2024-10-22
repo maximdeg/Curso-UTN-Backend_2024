@@ -3,6 +3,7 @@ import {
   registerUserController,
   verifyMailValidationTokenController,
   loginController,
+  forgotPasswordController,
 } from "../controllers/auth.controller.js";
 
 const authRouter = express.Router();
@@ -15,5 +16,6 @@ authRouter.get(
 );
 
 authRouter.post("/login", loginController);
+authRouter.post("/forgot-password", forgotPasswordController);
 
 export default authRouter;
