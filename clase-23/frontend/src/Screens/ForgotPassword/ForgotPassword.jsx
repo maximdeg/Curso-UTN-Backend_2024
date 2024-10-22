@@ -3,14 +3,13 @@ import { Link } from 'react-router-dom';
 import { extractFormData } from '../../utils.js/extractFormData';
 
 function ForgotPassword() {
-    const handleLoginForm = (e) => {
+    const handleEmailForm = (e) => {
         e.preventDefault();
 
         const form_HTML = e.target;
         const form_values = new FormData(form_HTML);
         const form_fields = {
             email: '',
-            password: '',
         };
         const form_values_object = extractFormData(form_fields, form_values);
 
@@ -27,7 +26,7 @@ function ForgotPassword() {
         <div>
             <h1>Forgot my password</h1>
 
-            <form onSubmit={handleLoginForm}>
+            <form onSubmit={handleEmailForm}>
                 <div>
                     <label htmlFor="email">Email</label>
                     <input

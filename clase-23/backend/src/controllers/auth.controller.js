@@ -215,7 +215,7 @@ export const forgotPasswordController = async (req, res) => {
       expiresIn: "1h",
     });
 
-    const resetUrl = `http://127.0.0.1:${ENV.PORT}/api/auth/reset-password/${resetToken}`;
+    const resetUrl = `${ENV.FRONT_URL}/reset-password/${resetToken}`;
 
     sendEmail({
       to: user.email,
@@ -239,3 +239,5 @@ export const forgotPasswordController = async (req, res) => {
     return res.status(200).json(response);
   } catch (err) {}
 };
+
+export const resetPasswordController = () => {};
