@@ -1,12 +1,39 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+export const extractFormData = (form_fields, form_values) => {
+    for (let field in form_fields) {
+        form_fields[field] = form_values.get(field);
+    }
+    return form_fields;
+};
 function Login() {
+    const handleLoginForm = (e) => {
+        e.preventDefault();
+
+        const form_HTML = e.target;
+        const form_values = new FormData(form_HTML);
+        const form_fields = {
+            email: '',
+            password: '',
+        };
+        const form_values_object = extractFormData(form_fields, form_values);
+
+        fetch('http://127.0.0.1:3000/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(form_values_object),
+        })
+            .then((res) => console.log(res))
+            .catch((err) => console.error(err));
+    };
+
+    
     return (
         <div>
             <h1>LOGIN</h1>
 
-            <form action="">
+            <form onSubmit={handleLoginForm}>
                 <div>
                     <label htmlFor="email">Email</label>
                     <input

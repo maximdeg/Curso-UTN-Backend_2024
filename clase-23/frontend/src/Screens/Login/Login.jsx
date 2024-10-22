@@ -7,22 +7,19 @@ export const extractFormData = (form_fields, form_values) => {
     }
     return form_fields;
 };
-
-function Register() {
-    const handleSubmitRegisterForm = (e) => {
+function Login() {
+    const handleLoginForm = (e) => {
         e.preventDefault();
+
         const form_HTML = e.target;
         const form_values = new FormData(form_HTML);
         const form_fields = {
-            name: '',
             email: '',
             password: '',
         };
-
         const form_values_object = extractFormData(form_fields, form_values);
-        console.log(form_values_object);
 
-        fetch('http://127.0.0.1:3000/api/auth/register', {
+        fetch('http://127.0.0.1:3000/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(form_values_object),
@@ -33,17 +30,9 @@ function Register() {
 
     return (
         <div>
-            <h1>REGISTER</h1>
-            <form onSubmit={handleSubmitRegisterForm}>
-                <div>
-                    <label htmlFor="name">Name</label>
-                    <input
-                        type="name"
-                        name="name"
-                        id="name"
-                        placeholder="Enter your name"
-                    />
-                </div>
+            <h1>LOGIN</h1>
+
+            <form onSubmit={handleLoginForm}>
                 <div>
                     <label htmlFor="email">Email</label>
                     <input
@@ -62,11 +51,11 @@ function Register() {
                         placeholder="Enter your password"
                     />
                 </div>
-                <button type="submit">Register</button>
+                <button type="submit">Login</button>
                 <div>
                     <span>
-                        Si ya tenes cuenta haz click{' '}
-                        <Link to="/login">aqui</Link>{' '}
+                        If you don't have an account you can{' '}
+                        <Link to="/register">register</Link>{' '}
                     </span>
                 </div>
             </form>
@@ -74,4 +63,4 @@ function Register() {
     );
 }
 
-export default Register;
+export default Login;
