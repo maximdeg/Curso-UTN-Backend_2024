@@ -135,8 +135,7 @@ export const loginController = async (req, res) => {
         .setStatus(403) // Prohibited content for user without authorization or verification
         .setMessage("USER_NOT_VERIFIED")
         .setPayload({
-          detail:
-            "User not verified. Please go to your email to verify your profile",
+          detail: "User not verified. Please go to your email to verify your profile",
         })
         .build();
 
@@ -158,13 +157,9 @@ export const loginController = async (req, res) => {
       return res.status(401).json(response);
     }
 
-    const token = jwt.sign(
-      { email: user.email, id: user._id },
-      ENV.JWT_SECRET,
-      {
-        expiresIn: ENV.JWT_TIME,
-      }
-    );
+    const token = jwt.sign({ email: user.email, id: user._id }, ENV.JWT_SECRET, {
+      expiresIn: ENV.JWT_TIME,
+    });
 
     const response = new ResponseBuilder()
       .setOk(true)
@@ -240,4 +235,48 @@ export const forgotPasswordController = async (req, res) => {
   } catch (err) {}
 };
 
-export const resetPasswordController = () => {};
+export const resetPasswordController = async (req, res) => {
+  const { password } = req.body;
+  const { reset_token } = req.params;
+
+  const decoded = jwt.verify(reset_token, ENV.JWT_SECRET);
+
+  if (!decoded) {
+    const response = new ResponseBuilder()
+      .setOk(false)
+      .setStatus(401)
+      .setMessage("INVALID_TOKEN")
+      .setPayload({ detail: "The token is not valid" })
+      .build();
+    return res.status(401).json(response);
+  }
+
+  const user = await UserRepository.getByEmail(decoded.email);
+
+  if (!user) {
+    const response = new ResponseBuilder()
+      .setOk(false)
+      .setStatus(401)
+      .setMessage("USER_NOT_FOUND")
+      .setPayload({ detail: "User is not registrated. Please REGISTER" })
+      .build();
+
+    return res.status(401).json(response);
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  user.password = hashedPassword;
+
+  await user.save();
+
+  const response = new ResponseBuilder()
+    .setOk(true)
+    .setStatus(200)
+    .setMessage("SUCCESS")
+    .setPayload({
+      message: "Password reset successfully",
+    })
+    .build();
+
+  res.status(200).json(response);
+};

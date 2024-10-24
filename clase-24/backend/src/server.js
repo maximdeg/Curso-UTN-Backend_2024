@@ -14,6 +14,7 @@ const PORT = ENV.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+
 app.use(verifyApiKeyMiddleware);
 
 app.use("/api/status", statusRouter);
