@@ -10,6 +10,7 @@ const ENV = {
   JWT_TIME: process.env.JWT_TIME,
   GMAIL_PASS: process.env.GMAIL_PASS,
   GMAIL_USERNAME: process.env.GMAIL_USERNAME,
+  INTERNAL_API_KEY: process.env.INTERNAL_API_KEY,
 };
 
 export default ENV;
