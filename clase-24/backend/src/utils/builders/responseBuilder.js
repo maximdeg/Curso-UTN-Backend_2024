@@ -6,9 +6,9 @@ class ResponseBuilder {
   constructor() {
     this.response = {
       ok: false,
-      payload: {},
       status: 500,
       message: "",
+      payload: {},
     };
   }
 

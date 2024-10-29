@@ -29,8 +29,23 @@ function Register() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(form_values_object),
         })
-            .then((res) => console.log(res))
-            .catch((err) => console.error(err));
+            .then((res) => {
+                console.log(res);
+                return res.json();
+            })
+            .then((body) => {
+                if (!body.ok) {
+                    if (body.status === 400) {
+                        // TODO: SHOW ERROR MESSAGE
+                    }
+                    // TODO: SHOW ERROR MESSAGE
+                    // use setError maybe
+                    console.log(body);
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     };
 
     return (

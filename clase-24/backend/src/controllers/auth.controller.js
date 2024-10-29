@@ -157,7 +157,7 @@ export const loginController = async (req, res) => {
       return res.status(401).json(response);
     }
 
-    const token = jwt.sign({ email: user.email, id: user._id }, ENV.JWT_SECRET, {
+    const token = jwt.sign({ email: user.email, id: user._id, role: user.role }, ENV.JWT_SECRET, {
       expiresIn: ENV.JWT_TIME,
     });
 
@@ -171,6 +171,7 @@ export const loginController = async (req, res) => {
           id: user._id,
           name: user.name,
           email: user.email,
+          role: user.role,
         },
       })
       .build();
