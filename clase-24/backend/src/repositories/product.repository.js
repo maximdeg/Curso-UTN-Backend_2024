@@ -2,8 +2,8 @@ import Product from "../models/product.model.js";
 
 class ProductRepository {
   /**
-   * Retrieves all products in database
-   * @returns {Promise<Array.<Product>>} All products in database
+   * Retrieves all active products from the database
+   * @returns {Promise<Product[]>} An array of all active products
    */
   static async getAll() {
     return await Product.find({ active: true });
