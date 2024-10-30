@@ -4,7 +4,7 @@ import ENV from "../config/enviroment.config.js";
 mongoose
   .connect(ENV.DB_URL)
   .then(() => {
-    console.log("Connected to the databse");
+    console.log("Connected to the database 🦾");
   })
   .catch(() => {
     console.error("ERROR connecting to database");

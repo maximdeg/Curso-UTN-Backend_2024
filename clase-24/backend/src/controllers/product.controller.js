@@ -67,7 +67,16 @@ export const createProductController = async (req, res) => {
     const errors = validateFormController(new_product);
 
     if (Object.entries(errors).length) {
-      return res.status(400).json(responseBuilder(false, 400, "DATA_VALIDATION_ERRORS", { errors: errors }));
+      const messages = [];
+      for (const key in errors) {
+        if (errors[key].id === 11) {
+          // Returning which field is empty
+          messages.push(errors[key].message + ": " + key);
+        } else {
+          messages.push(errors[key].message);
+        }
+      }
+      return res.status(400).json(responseBuilder(false, 400, "DATA_VALIDATION_ERRORS", { errors: messages }));
     }
 
     const created_product = await ProductRepository.createProduct(new_product);

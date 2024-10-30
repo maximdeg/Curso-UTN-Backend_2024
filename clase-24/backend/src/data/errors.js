@@ -38,7 +38,7 @@ const validateSellerId = async (id) => {
     const user_id = await UserRepository.getById(id);
     return user_id !== null;
   } catch (err) {
-    console.log(err.message);
+    console.error("Mongoose error:", err.message);
   }
 };
 
@@ -47,7 +47,7 @@ const validateActiveEmail = async (email) => {
     const user = await UserRepository.getByEmail(email);
     return user.emailVerified;
   } catch (err) {
-    console.log(err.message);
+    console.error("Mongoose error:", err.message);
   }
 };
 
@@ -61,7 +61,7 @@ const validateEmailExistsAlready = async (email) => {
     const product = await ProductRepository.getByEmail(email);
     return product === null;
   } catch (err) {
-    console.log(err.message);
+    console.error("Mongoose error:", err.message);
   }
 };
 
@@ -104,7 +104,7 @@ export const ERRORS = {
   PRODUCT_PRICE_VALUE: {
     message: "Price must be more than 0",
     id: 7,
-    property: "precio",
+    property: "price",
     validate: validatePriceAndStockValue,
   },
   PRODUCT_STOCK_VALUE: {
@@ -116,7 +116,7 @@ export const ERRORS = {
   PRODUCT_CATEGORY_LENGTH: {
     message: "Please select a category.",
     id: 9,
-    property: "categoria",
+    property: "category",
     validate: validateCategorySelection,
   },
   PRODUCT_SELLER_ID_LENGTH: {
@@ -126,18 +126,20 @@ export const ERRORS = {
     validate: validateSellerId,
   },
   EMPTY_FIELD: {
-    message: "Please fill all the fields",
+    message: "Please complete the following field",
     id: 11,
     validate: validateEmptyFields,
   },
   EMAIL_NOT_VERIFIED: {
     message: "Please verify your email address, we sent an email with the confirmation link.",
     id: 12,
+    property: "email",
     validate: validateActiveEmail,
   },
   EMAIL_EXISTS_ALREADY: {
     message: "This email is registered already, please log in",
     id: 13,
+    property: "email",
     validate: validateEmailExistsAlready,
   },
 };
