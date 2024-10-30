@@ -32,7 +32,7 @@ export const verifyTokenMiddleware = (permited_roles = []) => {
       const decoded = jwt.verify(access_token, ENV.JWT_SECRET);
       req.user = decoded;
 
-      if (permited_roles.length && permited_roles.includes(req.user.role)) {
+      if (permited_roles.length && !permited_roles.includes(req.user.role)) {
         const response = new ResponseBuilder()
           .setOk(false)
           .setStatus(403)

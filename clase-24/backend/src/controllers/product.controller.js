@@ -1,5 +1,6 @@
 import ProductRepository from "../repositories/product.repository.js";
 import ResponseBuilder from "../utils/builders/responseBuilder.js";
+import { validateFormController } from "./errors.controller.js.js";
 
 // PENSAR POR CADA FUNCION:
 // QUE RECIBO
@@ -63,9 +64,13 @@ export const createProductController = async (req, res) => {
       seller_id,
     };
 
-    const errors = validateFields(new_product);
+    const errors = validateFormController(new_product);
 
-    const created_product = await ProductRepository.createProduct();
+    if (Object.entries(errors).length) {
+      return res.status(400).json(responseBuilder(false, 400, "DATA_VALIDATION_ERRORS", { errors: errors }));
+    }
+
+    const created_product = await ProductRepository.createProduct(new_product);
     const response = responseBuilder(true, 200, "SUCCESS", { created_product });
     return res.status(200).json(response);
   } catch (err) {
