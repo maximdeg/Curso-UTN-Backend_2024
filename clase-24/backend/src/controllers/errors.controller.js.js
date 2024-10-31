@@ -1,10 +1,12 @@
 import { ERRORS } from "../data/errors.js";
 
 const handleErrors = (from, value) => {
+  const errors = [];
   for (const key in ERRORS) {
     if (ERRORS[key].property === from) {
       if (!ERRORS[key].validate(value)) {
         return ERRORS[key];
+        // errors.push(ERRORS[key].message);
       }
     }
   }
@@ -24,9 +26,9 @@ export const validateFormController = (newProduct) => {
     }
   }
 
-  if (Object.keys(errors).length === 0) {
-    return null;
-  } else {
-    return errors;
-  }
+  // if (Object.keys(errors).length === 0) {
+  //   return 0;
+  // } else {
+  return errors;
+  // }
 };

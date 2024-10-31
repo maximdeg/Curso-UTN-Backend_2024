@@ -33,37 +33,40 @@ const validateEmptyFields = (value) => {
   return value !== "";
 };
 
-const validateSellerId = async (id) => {
-  try {
-    const user_id = await UserRepository.getById(id);
-    return user_id !== null;
-  } catch (err) {
-    console.error("Mongoose error:", err.message);
-  }
-};
+// const validateSellerId = async (id) => {
+//   try {
+//     const user_id = await UserRepository.getById(id);
+//     return user_id !== null;
+//   } catch (err) {
+//     console.error("Mongoose error:", err.message);
+//     if(){
 
-const validateActiveEmail = async (email) => {
-  try {
-    const user = await UserRepository.getByEmail(email);
-    return user.emailVerified;
-  } catch (err) {
-    console.error("Mongoose error:", err.message);
-  }
-};
+//     }
+//   }
+// };
+
+// const validateActiveEmail = async (email) => {
+//   try {
+//     const user = await UserRepository.getByEmail(email);
+//     return user.emailVerified;
+//   } catch (err) {
+//     console.error("Mongoose error:", err.message);
+//   }
+// };
 
 /**
  * Validate if the email already exists in the database
  * @param {string} email - email to validate
  * @returns {Promise<boolean>} true if the email does not exist, false if it does
  */
-const validateEmailExistsAlready = async (email) => {
-  try {
-    const product = await ProductRepository.getByEmail(email);
-    return product === null;
-  } catch (err) {
-    console.error("Mongoose error:", err.message);
-  }
-};
+// const validateEmailExistsAlready = async (email) => {
+//   try {
+//     const product = await ProductRepository.getByEmail(email);
+//     return product === null;
+//   } catch (err) {
+//     console.error("Mongoose error:", err.message);
+//   }
+// };
 
 export const ERRORS = {
   USERNAME_LENGTH: {
@@ -119,27 +122,27 @@ export const ERRORS = {
     property: "category",
     validate: validateCategorySelection,
   },
-  PRODUCT_SELLER_ID_LENGTH: {
-    message: "This seller does not exist",
-    id: 10,
-    property: "seller_id",
-    validate: validateSellerId,
-  },
+  // PRODUCT_SELLER_ID_LENGTH: {
+  //   message: "This seller does not exist",
+  //   id: 10,
+  //   property: "seller_id",
+  //   validate: validateSellerId,
+  // },
   EMPTY_FIELD: {
     message: "Please complete the following field",
     id: 11,
     validate: validateEmptyFields,
   },
-  EMAIL_NOT_VERIFIED: {
-    message: "Please verify your email address, we sent an email with the confirmation link.",
-    id: 12,
-    property: "email",
-    validate: validateActiveEmail,
-  },
-  EMAIL_EXISTS_ALREADY: {
-    message: "This email is registered already, please log in",
-    id: 13,
-    property: "email",
-    validate: validateEmailExistsAlready,
-  },
+  // EMAIL_NOT_VERIFIED: {
+  //   message: "Please verify your email address, we sent an email with the confirmation link.",
+  //   id: 12,
+  //   property: "email",
+  //   validate: validateActiveEmail,
+  // },
+  // EMAIL_EXISTS_ALREADY: {
+  //   message: "This email is registered already, please log in",
+  //   id: 13,
+  //   property: "email",
+  //   validate: validateEmailExistsAlready,
+  // },
 };

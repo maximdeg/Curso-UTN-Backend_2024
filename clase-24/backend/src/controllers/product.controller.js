@@ -1,6 +1,8 @@
 import ProductRepository from "../repositories/product.repository.js";
 import ResponseBuilder from "../utils/builders/responseBuilder.js";
 import { validateFormController } from "./errors.controller.js.js";
+import ENV from "../config/enviroment.config.js";
+import jwt from "jsonwebtoken";
 
 // PENSAR POR CADA FUNCION:
 // QUE RECIBO
@@ -20,8 +22,7 @@ export const getAllProductsController = async (req, res) => {
 
     return res.status(200).json(responseBuilder(true, 200, "SUCCESS", { products }));
   } catch (err) {
-    const response = responseBuilder(false, 500, "SERVER_ERROR", { detail: "Failed to get all the products", error: err.message });
-    res.status(500).json(response);
+    res.status(500).json(responseBuilder(false, 500, "SERVER_ERROR", { detail: "Failed to get all the products", error: err.message }));
   }
 };
 
@@ -53,7 +54,11 @@ export const getProductByIdController = async (req, res) => {
 
 export const createProductController = async (req, res) => {
   try {
-    const { name, description, price, stock, category, seller_id } = req.body;
+    const { name, description, price, stock, category } = req.body;
+
+    const header_auth = req.headers["authorization"];
+    const decoded = jwt.verify(header_auth, ENV.JWT_SECRET);
+    const seller_id = decoded.id;
 
     const new_product = {
       name,
@@ -80,11 +85,9 @@ export const createProductController = async (req, res) => {
     }
 
     const created_product = await ProductRepository.createProduct(new_product);
-    const response = responseBuilder(true, 200, "SUCCESS", { created_product });
-    return res.status(200).json(response);
+    return res.status(200).json(responseBuilder(true, 200, "SUCCESS", { created_product }));
   } catch (err) {
-    const response = responseBuilder(false, 500, "SERVER_ERROR", { detail: "Failed to create the product", error: err.message });
-    res.status(500).json(response);
+    res.status(500).json(responseBuilder(false, 500, "SERVER_ERROR", { detail: "Failed to create the product", error: err.message }));
   }
 };
 
@@ -96,8 +99,7 @@ export const updateProductByIdController = async (req, res) => {
     const response = responseBuilder(true, 200, "SUCCESS", { product: updated_product });
     return res.status(200).json(response);
   } catch (err) {
-    const response = responseBuilder(false, 500, "SERVER_ERROR", { detail: "Failed to update the product", error: err.message });
-    res.status(500).json(response);
+    res.status(500).json(responseBuilder(false, 500, "SERVER_ERROR", { detail: "Failed to update the product", error: err.message }));
   }
 };
 
@@ -108,6 +110,6 @@ export const deleteProductController = async (req, res) => {
     const response = responseBuilder(true, 202, "SUCCESS", { deleted_product: product });
     return res.status(202).json(response);
   } catch (err) {
-    const response = responseBuilder(false, 500, "SERVER_ERROR", { detail: "Failed to delete the product", error: err.message });
+    res.status(500).json(responseBuilder(false, 500, "SERVER_ERROR", { detail: "Failed to delete the product", error: err.message }));
   }
 };
