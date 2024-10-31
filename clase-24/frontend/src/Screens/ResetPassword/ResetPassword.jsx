@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { extractFormData } from '../../utils.js/extractFormData';
+import { extractFormData } from '../../utils/extractFormData';
 
 function ResetPassword() {
     const { reset_token } = useParams();
