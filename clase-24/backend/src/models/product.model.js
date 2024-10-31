@@ -25,6 +25,7 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
     default: true,
+    select: false,
   },
   seller_id: {
     type: mongoose.Schema.Types.ObjectId,

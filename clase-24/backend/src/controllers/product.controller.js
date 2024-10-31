@@ -121,14 +121,14 @@ export const deleteProductController = async (req, res) => {
 
     const existing_product = await ProductRepository.getById(product_id);
 
-    if (current_seller_id !== existing_product.seller_id.toString()) {
+    if (req.user.role === "admin" && current_seller_id !== existing_product.seller_id.toString()) {
       return res
         .status(403)
         .json(responseBuilder(false, 403, "WRONG_ID_AUTHENTICATION", { detail: "The seller is not the same as the one who created the product" }));
     }
 
     const product = await ProductRepository.deleteProductById(product_id);
-    return res.status(202).json(responseBuilder(true, 202, "SUCCESS", { deleted_product: product }));
+    return res.status(202).json(responseBuilder(true, 204, "SUCCESS", { deleted_product: product }));
   } catch (err) {
     res.status(500).json(responseBuilder(false, 500, "SERVER_ERROR", { detail: "Failed to delete the product", error: err.message }));
   }
