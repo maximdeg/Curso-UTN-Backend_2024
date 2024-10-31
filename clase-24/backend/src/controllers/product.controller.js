@@ -56,8 +56,7 @@ export const createProductController = async (req, res) => {
   try {
     const { name, description, price, stock, category } = req.body;
 
-    const header_auth = req.headers["authorization"];
-    const decoded = jwt.verify(header_auth, ENV.JWT_SECRET);
+    const decoded = jwt.verify(req.headers["authorization"], ENV.JWT_SECRET);
     const seller_id = decoded.id;
 
     const new_product = {
