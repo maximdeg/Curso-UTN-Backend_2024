@@ -94,9 +94,20 @@ export const updateProductByIdController = async (req, res) => {
   try {
     const { product_id } = req.params;
     const product = req.body;
+    const decoded = jwt.verify(req.headers["authorization"], ENV.JWT_SECRET);
+    const current_seller_id = decoded.id;
+
+    const existing_product = await ProductRepository.getById(product_id);
+
+    if (current_seller_id !== existing_product.seller_id.toString()) {
+      return res
+        .status(403)
+        .json(responseBuilder(false, 403, "WRONG_ID_AUTHENTICATION", { detail: "The seller is not the same as the one who created the product" }));
+    }
+
     const updated_product = await ProductRepository.updateProductById(product_id, product);
-    const response = responseBuilder(true, 200, "SUCCESS", { product: updated_product });
-    return res.status(200).json(response);
+
+    return res.status(200).json(responseBuilder(true, 200, "SUCCESS", { product: updated_product }));
   } catch (err) {
     res.status(500).json(responseBuilder(false, 500, "SERVER_ERROR", { detail: "Failed to update the product", error: err.message }));
   }
@@ -105,9 +116,19 @@ export const updateProductByIdController = async (req, res) => {
 export const deleteProductController = async (req, res) => {
   try {
     const { product_id } = req.params;
+    const decoded = jwt.verify(req.headers["authorization"], ENV.JWT_SECRET);
+    const current_seller_id = decoded.id;
+
+    const existing_product = await ProductRepository.getById(product_id);
+
+    if (current_seller_id !== existing_product.seller_id.toString()) {
+      return res
+        .status(403)
+        .json(responseBuilder(false, 403, "WRONG_ID_AUTHENTICATION", { detail: "The seller is not the same as the one who created the product" }));
+    }
+
     const product = await ProductRepository.deleteProductById(product_id);
-    const response = responseBuilder(true, 202, "SUCCESS", { deleted_product: product });
-    return res.status(202).json(response);
+    return res.status(202).json(responseBuilder(true, 202, "SUCCESS", { deleted_product: product }));
   } catch (err) {
     res.status(500).json(responseBuilder(false, 500, "SERVER_ERROR", { detail: "Failed to delete the product", error: err.message }));
   }
