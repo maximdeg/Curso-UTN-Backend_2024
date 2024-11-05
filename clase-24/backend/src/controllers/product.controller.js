@@ -59,13 +59,19 @@ export const createProductController = async (req, res) => {
     const decoded = jwt.verify(req.headers["authorization"], ENV.JWT_SECRET);
     const seller_id = decoded.id;
 
+    // if(!seller_id) TODO: Validar
+
+    if (image && Buffer.byteLength(image, "base64") > 4 * 1024 * 1024) {
+      return res.status(413).json(responseBuilder(false, 413, "DATA_VALIDATION_ERRORS", { errors: "Image size must be less than 4MB" }));
+    }
+
     const new_product = {
       name,
       description,
       price,
       stock,
       category,
-      image,
+      image_base_64: Buffer.from(image, "base64"),
       seller_id,
     };
 

@@ -20,6 +20,7 @@ const CreateProductScreen = () => {
             e.preventDefault();
             const form_HTML = e.target;
             const form_values = new FormData(form_HTML);
+
             const form_fields = {
                 name: '',
                 description: '',
@@ -31,6 +32,7 @@ const CreateProductScreen = () => {
 
             const form_values_object = extractFormData(form_fields, form_values);
 
+            form_values_object.image = image;
             const response = await POST('http://127.0.0.1:3000/api/products', form_values_object);
 
             console.log(response);
@@ -42,12 +44,18 @@ const CreateProductScreen = () => {
     const handleChangeFile = (e) => {
         const file_found = e.target.files[0];
         console.log('file_found', file_found);
+        // const FILE_MB_LIMIT = 5;
+
+        if (file_found && file_found.size > 5 * 1024 * 1024) {
+            alert('El tamaño de la imagen debe ser menor a 5MB');
+            return; //cancel operation
+        }
 
         const file_reader = new FileReader();
         console.log('file_reader', file_reader);
 
         file_reader.onloadend = () => {
-            console.log(file_reader.result);
+            console.log('Carga finalizada', file_reader.result);
             setImage(file_reader.result);
         };
 

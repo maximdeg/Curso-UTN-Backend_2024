@@ -2,11 +2,14 @@
 
 export const POST = async (URL_API, body) => {
     try {
+        const auth_header = sessionStorage.getItem('access_token');
+
         const response = await fetch(URL_API, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'x-api-key': 'f77fa1b6-f294-4240-adbc-32f8e84dbc62',
+                Authorization: `${auth_header}`,
             },
             body: JSON.stringify(body),
         });
@@ -39,11 +42,14 @@ export const GET = async (URL_API) => {
 // PUT
 export const PUT = async (URL_API, body) => {
     try {
+        const auth_header = sessionStorage.getItem('access_token');
+
         const response = await fetch(URL_API, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'x-api-key': 'f77fa1b6-f294-4240-adbc-32f8e84dbc62',
+                Authorization: `${auth_header}`,
             },
             body: JSON.stringify(body),
         });
@@ -57,11 +63,14 @@ export const PUT = async (URL_API, body) => {
 
 export const DELETE = async (URL_API) => {
     try {
+        const auth_header = sessionStorage.getItem('access_token');
+
         const response = await fetch(URL_API, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 'x-api-key': 'f77fa1b6-f294-4240-adbc-32f8e84dbc62',
+                Authorization: `${auth_header}`,
             },
         });
         return response.json();
