@@ -20,7 +20,17 @@ export const getAllProductsController = async (req, res) => {
       return res.status(400).json(responseBuilder(false, 400, "BAD_REQUEST", { detail: "No products found" }));
     }
 
-    return res.status(200).json(responseBuilder(true, 200, "SUCCESS", { products }));
+    return res.status(200).json(
+      responseBuilder(true, 200, "SUCCESS", {
+        products: products.map((product) => {
+          return {
+            ...product._doc,
+            id: product._id,
+            //image: Buffer.from(product.image_base_64, 'base64').toString('base64')
+          };
+        }),
+      })
+    );
   } catch (err) {
     res.status(500).json(responseBuilder(false, 500, "SERVER_ERROR", { detail: "Failed to get all the products", error: err.message }));
   }
