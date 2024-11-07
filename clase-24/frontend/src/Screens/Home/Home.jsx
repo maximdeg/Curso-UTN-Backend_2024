@@ -4,6 +4,8 @@ import { GET } from '../../fetching/http.fetching.js';
 // import { useGlobalContext } from '../../context/GlobalContext.jsx';
 import useProducts from '../../Hooks/useProducts.jsx';
 
+import './Home.css';
+
 const Home = () => {
     const user_info = JSON.parse(sessionStorage.getItem('user_info'));
     const { products, isLoadingProducts } = useProducts();
@@ -14,7 +16,24 @@ const Home = () => {
                 <strong>Welcome to home {user_info.name}</strong>
             </h1>
             <Link to="/product/new">Creat producto</Link>
-            {isLoadingProducts ? <h1>Loading...</h1> : <ProductList products={products} />}
+            {isLoadingProducts ? (
+                <div className="lds-spinner" bis_skin_checked="1">
+                    <div bis_skin_checked="1"></div>
+                    <div bis_skin_checked="1"></div>
+                    <div bis_skin_checked="1"></div>
+                    <div bis_skin_checked="1"></div>
+                    <div bis_skin_checked="1"></div>
+                    <div bis_skin_checked="1"></div>
+                    <div bis_skin_checked="1"></div>
+                    <div bis_skin_checked="1"></div>
+                    <div bis_skin_checked="1"></div>
+                    <div bis_skin_checked="1"></div>
+                    <div bis_skin_checked="1"></div>
+                    <div bis_skin_checked="1"></div>
+                </div>
+            ) : (
+                <ProductList products={products} />
+            )}
         </div>
     );
 };
