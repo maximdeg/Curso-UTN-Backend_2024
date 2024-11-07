@@ -1,11 +1,31 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useGlobalContext } from '../../context/GlobalContext';
+import useProductDetails from '../../Hooks/useProductDetails';
 
 const ProductDetails = () => {
     const { product_id } = useParams();
+    const user_info = JSON.parse(sessionStorage.getItem('user_info'));
 
-    return <div>{product_id}</div>;
+    const { productDetails, isLoadingProducts } = useProductDetails();
+
+    return (
+        <div>
+            <h1>
+                <strong>{productDetails.name}</strong>
+            </h1>
+            {isLoadingProducts ? (
+                <h1>Loading...</h1>
+            ) : (
+                <div>
+                    <img src={productDetails.image} style={{ width: '50px' }} />
+                    <div>Description: {productDetails.description}</div>
+                    <div>Price: ${productDetails.price}</div>
+                    <div>Stock: {productDetails.stock}</div>
+                    <div>Category: {productDetails.category}</div>
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default ProductDetails;

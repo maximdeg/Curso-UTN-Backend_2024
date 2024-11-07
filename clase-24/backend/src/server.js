@@ -6,7 +6,8 @@ import authRouter from "./routes/auth.router.js";
 import productRouter from "./routes/products.router.js";
 
 // This imports are to run those files
-import mongoose from "./db/config.js";
+// import mongoose from "./db/configMongoDB.js";
+import database_pool from "./db/configMysql.js";
 import transporter from "./config/transporter.config.js";
 
 const app = express();

@@ -52,9 +52,10 @@ export const getProductByIdController = async (req, res) => {
       return res.status(404).json(responseBuilder(false, 404, "NOT_FOUND", { detail: "Product not found or the product ID is wrong" }));
     }
 
-    if (!product_found.active) {
-      return res.status(404).json(responseBuilder(false, 404, "DOES_NOT_EXIST", { detail: "This product does not exist any longer" }));
-    }
+    // if (!product_found.active) {
+    //   return res.status(404).json(responseBuilder(false, 404, "DOES_NOT_EXIST", { detail: "This product does not exist any longer" }));
+    // }
+    // TODO: CHECK THIS IF
 
     return res.status(200).json(responseBuilder(true, 200, "SUCCESS", { product_found }));
   } catch (err) {
