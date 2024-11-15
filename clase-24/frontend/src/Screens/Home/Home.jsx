@@ -39,19 +39,19 @@ const Home = () => {
 };
 
 const ProductList = ({ products }) => {
+    console.log('products', products);
     return products.map((product) => {
         return <Product key={product.id} {...product} />;
     });
 };
 
-const Product = ({ id, name, price, image }) => {
-    console.log(name, id, price, image);
+const Product = ({ id, name, price, image_base_64 }) => {
     return (
         <div key={id}>
             <Link to={`/product/${id}`}>
                 {name} ${price}
             </Link>
-            <img src={image} style={{ width: '50px' }} />
+            <img src={image_base_64} style={{ width: '50px' }} />
         </div>
     );
 };

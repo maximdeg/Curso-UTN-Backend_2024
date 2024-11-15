@@ -17,7 +17,7 @@ const ProductDetails = () => {
                 <h1>Loading...</h1>
             ) : (
                 <div>
-                    <img src={productDetails.image} style={{ width: '50px' }} />
+                    <img src={productDetails.image_base_64} style={{ width: '100px' }} />
                     <div>Description: {productDetails.description}</div>
                     <div>Price: ${productDetails.price}</div>
                     <div>Stock: {productDetails.stock}</div>
@@ -27,5 +27,7 @@ const ProductDetails = () => {
         </div>
     );
 };
+
+// TODO: Create a component to show the product details instead of up here
 
 export default ProductDetails;

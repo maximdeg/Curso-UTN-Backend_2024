@@ -10,10 +10,10 @@ const CreateProductScreen = () => {
         price: '',
         stock: '',
         category: '',
-        image: '',
+        image_base_64: '',
     };
     const { formValuesState, setFormValuesState, handleChangeInputValue } = useForm(form_fields);
-    const [image, setImage] = useState('');
+    const [image_base_64, setImage_base_64] = useState('');
 
     const handleSubmitNewProductForm = async (e) => {
         try {
@@ -27,12 +27,11 @@ const CreateProductScreen = () => {
                 price: '',
                 stock: '',
                 category: '',
-                image: '',
             };
 
             const form_values_object = extractFormData(form_fields, form_values);
 
-            form_values_object.image = image;
+            form_values_object.image_base_64 = image_base_64;
             const response = await POST('http://127.0.0.1:3000/api/products', form_values_object);
 
             console.log(response);
@@ -56,7 +55,7 @@ const CreateProductScreen = () => {
 
         file_reader.onloadend = () => {
             console.log('Carga finalizada', file_reader.result);
-            setImage(file_reader.result);
+            setImage_base_64(file_reader.result);
         };
 
         if (file_found) {
@@ -90,9 +89,11 @@ const CreateProductScreen = () => {
                 </div>
                 <div>
                     <label htmlFor="image">Image</label>
-                    <input type="file" name="image" id="image" placeholder="Enter your password" onChange={handleChangeFile} />
+                    <input type="file" name="image_base_64" id="image" placeholder="Enter your password" onChange={handleChangeFile} />
                 </div>
-                <div style={{ height: '200px', width: '200px' }}>{image && <img src={image} style={{ height: '100%', width: '100%' }} />}</div>
+                <div style={{ height: '200px', width: '200px' }}>
+                    {image_base_64 && <img src={image_base_64} style={{ height: '100%', width: '100%' }} />}
+                </div>
                 <button type="submit">Register</button>
             </form>
         </div>

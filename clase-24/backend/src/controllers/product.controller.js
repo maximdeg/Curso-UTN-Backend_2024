@@ -22,13 +22,7 @@ export const getAllProductsController = async (req, res) => {
 
     return res.status(200).json(
       responseBuilder(true, 200, "SUCCESS", {
-        products: products.map((product) => {
-          return {
-            ...product._doc,
-            id: product._id,
-            //image: Buffer.from(product.image_base_64, 'base64').toString('base64')
-          };
-        }),
+        products,
       })
     );
   } catch (err) {
@@ -39,8 +33,6 @@ export const getAllProductsController = async (req, res) => {
 export const getProductByIdController = async (req, res) => {
   try {
     const { product_id } = req.params;
-
-    console.log(product_id);
 
     if (!product_id) {
       return res.status(400).json(responseBuilder(false, 400, "WRONG_ID_AUTHENTICATION", { detail: "Product id is required for this request" }));
@@ -65,14 +57,14 @@ export const getProductByIdController = async (req, res) => {
 
 export const createProductController = async (req, res) => {
   try {
-    const { name, description, price, stock, category, image } = req.body;
+    const { name, description, price, stock, category, image_base_64 } = req.body;
 
     const decoded = jwt.verify(req.headers["authorization"], ENV.JWT_SECRET);
     const seller_id = decoded.id;
 
     // if(!seller_id) TODO: Validar
 
-    if (image && Buffer.byteLength(image, "base64") > 4 * 1024 * 1024) {
+    if (image_base_64 && Buffer.byteLength(image_base_64, "base64") > 4 * 1024 * 1024) {
       return res.status(413).json(responseBuilder(false, 413, "DATA_VALIDATION_ERRORS", { errors: "Image size must be less than 4MB" }));
     }
 
@@ -82,7 +74,7 @@ export const createProductController = async (req, res) => {
       price,
       stock,
       category,
-      image_base_64: Buffer.from(image, "base64"),
+      image_base_64,
       seller_id,
     };
 
