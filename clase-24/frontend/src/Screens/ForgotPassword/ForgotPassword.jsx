@@ -12,9 +12,15 @@ function ForgotPassword() {
             const form_fields = {
                 email: '',
             };
+
+            // TODO: CHECK IF EMAIL IS VALID
+
             const form_values_object = extractFormData(form_fields, form_values);
 
-            const response = await POST('http://127.0.0.1:3000/api/auth/forgot-password', form_values_object);
+            const response = await POST('http://127.0.0.1:3000/api/auth/forgot-password', {
+                headers: getUnnauthenticatedHeaders(),
+                body: JSON.stringify(form_values_object),
+            });
             console.log(response);
         } catch (err) {
             console.error(err.message);

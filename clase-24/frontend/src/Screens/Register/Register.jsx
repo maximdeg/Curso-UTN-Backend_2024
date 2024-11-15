@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from '../../Hooks/useForm';
+import { getUnnauthenticatedHeaders } from '../../utils/Headers';
+import { POST } from '../../fetching/http.fetching';
 
 export const extractFormData = (form_fields, form_values) => {
     for (let field in form_fields) {
@@ -18,34 +20,50 @@ function Register() {
 
     const { formValuesState, setFormValuesState, handleChangeInputValue } = useForm(form_fields);
 
-    const handleSubmitRegisterForm = (e) => {
-        e.preventDefault();
-        const form_HTML = e.target;
-        const form_values = new FormData(form_HTML);
-        const form_values_object = extractFormData(form_fields, form_values);
+    const handleSubmitRegisterForm = async (e) => {
+        try {
+            e.preventDefault();
+            const form_HTML = e.target;
+            const form_values = new FormData(form_HTML);
+            const form_values_object = extractFormData(form_fields, form_values);
 
-        fetch('http://127.0.0.1:3000/api/auth/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(form_values_object),
-        })
-            .then((res) => {
-                console.log(res);
-                return res.json();
-            })
-            .then((body) => {
-                if (!body.ok) {
-                    if (body.status === 400) {
-                        // TODO: SHOW ERROR MESSAGE
-                    }
-                    // TODO: SHOW ERROR MESSAGE
-                    // use setError maybe
-                    console.log(body);
-                }
-            })
-            .catch((err) => {
-                console.error(err);
+            const response = await POST('http://127.0.0.1:3000/api/auth/register', {
+                headers: getUnnauthenticatedHeaders(),
+                body: JSON.stringify(form_values_object),
             });
+
+            console.log(response);
+
+            if (!response.ok) {
+                // TODO: SHOW ERROR MESSAGE
+                // Use set error
+            }
+        } catch (err) {
+            console.error(err.message);
+        }
+
+        // fetch('http://127.0.0.1:3000/api/auth/register', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(form_values_object),
+        // })
+        //     .then((res) => {
+        //         console.log(res);
+        //         return res.json();
+        //     })
+        //     .then((body) => {
+        //         if (!body.ok) {
+        //             if (body.status === 400) {
+        //                 // TODO: SHOW ERROR MESSAGE
+        //             }
+        //             // TODO: SHOW ERROR MESSAGE
+        //             // use setError maybe
+        //             console.log(body);
+        //         }
+        //     })
+        //     .catch((err) => {
+        //         console.error(err);
+        //     });
     };
 
     return (

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { extractFormData } from '../../utils/extractFormData.js';
 import { POST } from '../../fetching/http.fetching.js';
+import { getUnnauthenticatedHeaders } from '../../utils/Headers.js';
 
 function Login() {
     const navigate = useNavigate();
@@ -17,7 +18,11 @@ function Login() {
             };
             const form_values_object = extractFormData(form_fields, form_values);
 
-            const response = await POST('http://127.0.0.1:3000/api/auth/login', form_values_object);
+            const response = await POST('http://127.0.0.1:3000/api/auth/login', {
+                headers: getUnnauthenticatedHeaders(),
+                body: JSON.stringify(form_values_object),
+            });
+
             const access_token = response.payload.token;
             console.log(access_token);
 

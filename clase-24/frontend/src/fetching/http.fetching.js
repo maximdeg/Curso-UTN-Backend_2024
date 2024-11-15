@@ -1,17 +1,12 @@
 // import ENV from '../../src/config/enviroment.config.js';
 
-export const POST = async (URL_API, body) => {
+export const POST = async (URL_API, params) => {
     try {
-        const auth_header = sessionStorage.getItem('access_token');
+        // const auth_header = sessionStorage.getItem('access_token');
 
         const response = await fetch(URL_API, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': 'f77fa1b6-f294-4240-adbc-32f8e84dbc62',
-                Authorization: `${auth_header}`,
-            },
-            body: JSON.stringify(body),
+            ...params,
         });
         return response.json();
     } catch (error) {
@@ -21,16 +16,12 @@ export const POST = async (URL_API, body) => {
 //Crear GET, PUT, DELETE
 
 // GET
-export const GET = async (URL_API) => {
+export const GET = async (URL_API, params) => {
     try {
-        const auth_header = sessionStorage.getItem('access_token');
+        // const auth_header = sessionStorage.getItem('access_token');
         const response = await fetch(URL_API, {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': 'f77fa1b6-f294-4240-adbc-32f8e84dbc62',
-                Authorization: `${auth_header}`,
-            },
+            ...params,
         });
         return response.json();
     } catch (error) {

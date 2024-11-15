@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { GET } from '../fetching/http.fetching';
+import { getAuthenticatedHeaders } from '../utils/Headers';
 
 const useProductDetails = () => {
     const { product_id } = useParams();
@@ -9,11 +10,7 @@ const useProductDetails = () => {
 
     const getProductDetails = async (id) => {
         const response = await GET('http://127.0.0.1:3000/api/products/' + id, {
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': 'f77fa1b6-f294-4240-adbc-32f8e84dbc62',
-                Authentication: sessionStorage.getItem('access_token'),
-            },
+            headers: getAuthenticatedHeaders(),
         });
 
         if (response.ok) {

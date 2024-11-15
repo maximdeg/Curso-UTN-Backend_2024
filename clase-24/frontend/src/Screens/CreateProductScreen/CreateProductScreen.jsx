@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from '../../Hooks/useForm';
 import { POST } from '../../fetching/http.fetching';
 import { extractFormData } from '../../utils/extractFormData.js';
+import { getUnnauthenticatedHeaders } from '../../utils/Headers.js';
 
 const CreateProductScreen = () => {
     const form_fields = {
@@ -32,7 +33,10 @@ const CreateProductScreen = () => {
             const form_values_object = extractFormData(form_fields, form_values);
 
             form_values_object.image_base_64 = image_base_64;
-            const response = await POST('http://127.0.0.1:3000/api/products', form_values_object);
+            const response = await POST('http://127.0.0.1:3000/api/products', {
+                headers: getUnnauthenticatedHeaders(),
+                body: JSON.stringify(form_values_object),
+            });
 
             console.log(response);
         } catch (err) {

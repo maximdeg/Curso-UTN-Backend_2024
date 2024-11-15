@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { GET } from '../../fetching/http.fetching.js';
+// import { GET } from '../../fetching/http.fetching.js';
 // import { useGlobalContext } from '../../context/GlobalContext.jsx';
 import useProducts from '../../Hooks/useProducts.jsx';
 
